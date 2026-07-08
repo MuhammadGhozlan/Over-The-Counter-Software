@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finance Planner Desktop User Manual</title>
+  <style>
+    :root {
+      --ink: #172322;
+      --muted: #5f6f6c;
+      --line: #dbe3e1;
+      --accent: #0f766e;
+      --bg: #f7f9f8;
+      --surface: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 48px 22px;
+    }
+
+    article {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: clamp(22px, 5vw, 48px);
+    }
+
+    h1,
+    h2 {
+      line-height: 1.2;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    h2 {
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+
+    p,
+    li {
+      color: var(--muted);
+    }
+
+    code {
+      border-radius: 6px;
+      background: #eef3f2;
+      color: var(--ink);
+      padding: 2px 5px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      main {
+        padding: 0;
+      }
+
+      article {
+        border: 0;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <h1>Finance Planner Desktop User Manual</h1>
+      <p>Finance Planner Desktop helps you record wages, expenses, and savings goals, then turns that information into a monthly plan. The app estimates how much you can save, whether your goals are realistic, which categories need limits, and which expenses are best to reduce first.</p>
+
+      <h2>Opening the application</h2>
+      <ol>
+        <li>Open the <code>Finance Application</code> folder.</li>
+        <li>Double-click <code>launch.bat</code>.</li>
+        <li>If Node.js is available, the app opens at <code>http://localhost:5177</code> or the next available local port.</li>
+        <li>If Node.js is not available, the launcher opens <code>index.html</code> directly in your default browser.</li>
+      </ol>
+      <p>The application works locally. When opened with <code>launch.bat</code>, your data is automatically saved to <code>finance-data.json</code> in the <code>Finance Application</code> folder. Your data stays on this computer unless you export and share the backup file.</p>
+
+      <h2>Dashboard</h2>
+      <p>The dashboard summarizes your monthly money picture. It displays monthly income, monthly expenses, goal savings needed, and daily safe spend. The Autopilot panel tells you whether you are on track, close to the limit, or short of your savings target.</p>
+
+      <h2>Adding wages and income</h2>
+      <ol>
+        <li>Select <code>Money In</code>.</li>
+        <li>Enter the income name, amount, frequency, and type.</li>
+        <li>Select <code>Save income</code>.</li>
+      </ol>
+      <p>Use this section for salary, hourly wages, freelance work, side income, investment income, or recurring support payments.</p>
+
+      <h2>Adding expenses</h2>
+      <ol>
+        <li>Select <code>Expenses</code>.</li>
+        <li>Enter the expense name, amount, frequency, category, due day, priority, and notes.</li>
+        <li>Select <code>Save expense</code>.</li>
+      </ol>
+      <p>Priorities affect the generated plan. Essential expenses are protected first. Flexible expenses can be reduced. Optional expenses are strong candidates for cutting when a savings gap exists.</p>
+
+      <h2>Adding savings goals</h2>
+      <ol>
+        <li>Select <code>Savings Goals</code>.</li>
+        <li>Enter the goal name, target amount, amount already saved, deadline, and goal type.</li>
+        <li>Select <code>Save goal</code>.</li>
+      </ol>
+      <p>The app calculates the monthly amount needed for each goal. For example, if a goal needs $1,200 and has 6 months left, the app plans for $200 per month.</p>
+
+      <h2>Monthly Plan</h2>
+      <p>The Monthly Plan uses your income, expenses, and goals to create a spending strategy. It includes a status summary, category caps, weekly limits, and a cut list of high-impact reductions.</p>
+
+      <h2>What-if Lab</h2>
+      <p>The What-if Lab is the app's scenario feature. Use sliders to test lower food spending, lower subscription spending, lower shopping, lower entertainment, added side income, and a wage increase. The app shows projected monthly improvement, new savings capacity, estimated goal speed-up, and annual upside.</p>
+
+      <h2>Reports</h2>
+      <p>The Reports section creates a printable monthly brief with cash position, largest categories, savings goals, and recommended actions. Use <code>Print report</code> to print or save as PDF from your browser's print dialog.</p>
+
+      <h2>Backup and restore</h2>
+      <p>When the app is opened through <code>launch.bat</code>, it saves automatically to <code>finance-data.json</code> in the same folder as the app. This is the main save file. JSON is used because it preserves every setting, income item, expense item, savings goal, and note.</p>
+      <p>Use <code>Export finance data</code> to download an extra JSON backup. Use <code>Export CSV tables</code> to create a spreadsheet-friendly CSV copy of income, expenses, and goals. Use <code>Import finance data</code> to restore a JSON backup later. Keep backups in a secure place because they contain private financial information.</p>
+
+      <h2>Settings</h2>
+      <p>Settings let you change display name, currency, starting savings, planning month start day, and planning style. Balanced uses steady reductions, Aggressive suggests stronger cuts, and Comfort makes softer recommendations.</p>
+
+      <h2>Privacy</h2>
+      <p>The app does not upload data to a cloud service or external database. When launched through <code>launch.bat</code>, the included local server reads and writes only the <code>finance-data.json</code> file inside the app folder. If you open <code>index.html</code> directly without <code>launch.bat</code>, the app falls back to browser local storage, and clearing browser data can remove saved finance records.</p>
+
+      <h2>Good monthly workflow</h2>
+      <ol>
+        <li>Add or update wages.</li>
+        <li>Add new expenses and remove old ones.</li>
+        <li>Update savings goal balances.</li>
+        <li>Review the Dashboard.</li>
+        <li>Open Monthly Plan and follow the category caps.</li>
+        <li>Use What-if Lab when a goal is not on track.</li>
+        <li>Confirm the top status says <code>Saved to finance-data.json</code>.</li>
+        <li>Export a backup after major updates.</li>
+      </ol>
+    </article>
+  </main>
+</body>
+</html>

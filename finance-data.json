@@ -1,0 +1,126 @@
+{
+  "profile": {
+    "name": "Household",
+    "currency": "USD",
+    "startingSavings": ,
+    "monthStartDay": 1,
+    "planningStyle": "balanced"
+  },
+  "theme": "light",
+  "incomes": [
+    {
+      "id": "income-salary",
+      "name": "Primary salary",
+      "amount": ,
+      "frequency": "semimonthly",
+      "type": "Wage"
+    },
+    {
+      "id": "income-side",
+      "name": "Weekend freelance",
+      "amount": ,
+      "frequency": "monthly",
+      "type": "Side income"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "expense-rent",
+      "name": "Rent",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Housing",
+      "dueDay": 1,
+      "priority": "essential",
+      "notes": ""
+    },
+    {
+      "id": "expense-utilities",
+      "name": "Utilities",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Utilities",
+      "dueDay": 7,
+      "priority": "essential",
+      "notes": ""
+    },
+    {
+      "id": "expense-groceries",
+      "name": "Groceries",
+      "amount": ,
+      "frequency": "weekly",
+      "category": "Food",
+      "dueDay": 5,
+      "priority": "flexible",
+      "notes": "Includes household supplies"
+    },
+    {
+      "id": "expense-car",
+      "name": "Car payment",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Transportation",
+      "dueDay": 14,
+      "priority": "essential",
+      "notes": ""
+    },
+    {
+      "id": "expense-insurance",
+      "name": "Insurance",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Insurance",
+      "dueDay": 18,
+      "priority": "essential",
+      "notes": ""
+    },
+    {
+      "id": "expense-streaming",
+      "name": "Streaming subscriptions",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Subscriptions",
+      "dueDay": 11,
+      "priority": "optional",
+      "notes": "Review bundle overlap"
+    },
+    {
+      "id": "expense-dining",
+      "name": "Dining out",
+      "amount": ,
+      "frequency": "weekly",
+      "category": "Entertainment",
+      "dueDay": 6,
+      "priority": "optional",
+      "notes": ""
+    },
+    {
+      "id": "expense-shopping",
+      "name": "Personal shopping",
+      "amount": ,
+      "frequency": "monthly",
+      "category": "Shopping",
+      "dueDay": ,
+      "priority": "optional",
+      "notes": ""
+    }
+  ],
+  "goals": [
+    {
+      "id": "goal-emergency",
+      "name": "Emergency fund",
+      "target": ,
+      "current": ,
+      "deadline": "2026-12-31",
+      "type": "year"
+    },
+    {
+      "id": "goal-trip",
+      "name": "Holiday travel",
+      "target": ,
+      "current": ,
+      "deadline": "2026-07-31",
+      "type": "month"
+    }
+  ]
+}

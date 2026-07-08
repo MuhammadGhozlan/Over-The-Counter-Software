@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f766e">
+  <title>Finance Planner Desktop</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">FP</div>
+        <div>
+          <h1>Finance Planner</h1>
+          <p>Local budgeting workspace</p>
+        </div>
+      </div>
+
+      <nav class="nav-list" aria-label="Application sections">
+        <button class="nav-item is-active" type="button" data-view-target="dashboard">
+          <span class="nav-symbol" aria-hidden="true">01</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="income">
+          <span class="nav-symbol" aria-hidden="true">02</span>
+          <span>Money In</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="expenses">
+          <span class="nav-symbol" aria-hidden="true">03</span>
+          <span>Expenses</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="goals">
+          <span class="nav-symbol" aria-hidden="true">04</span>
+          <span>Savings Goals</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="plan">
+          <span class="nav-symbol" aria-hidden="true">05</span>
+          <span>Monthly Plan</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="simulator">
+          <span class="nav-symbol" aria-hidden="true">06</span>
+          <span>What-if Lab</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="reports">
+          <span class="nav-symbol" aria-hidden="true">07</span>
+          <span>Reports</span>
+        </button>
+        <button class="nav-item" type="button" data-view-target="settings">
+          <span class="nav-symbol" aria-hidden="true">08</span>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <div class="storage-note">
+        <strong>Private by default.</strong>
+        <span>Data is saved in this browser on this computer.</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="todayLabel">Today</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="topbar-actions">
+          <span class="status-pill" id="saveStatus">Saved locally</span>
+          <button class="icon-button" type="button" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3a1 1 0 0 1 1 1v1.1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 15.9a1 1 0 0 1 1 1V21a1 1 0 1 1-2 0v-1.1a1 1 0 0 1 1-1ZM4 11h1.1a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm14.9 0H20a1 1 0 1 1 0 2h-1.1a1 1 0 1 1 0-2ZM6.34 5.64a1 1 0 0 1 1.42 0l.78.78a1 1 0 0 1-1.42 1.42l-.78-.78a1 1 0 0 1 0-1.42Zm9.12 9.12a1 1 0 0 1 1.42 0l.78.78a1 1 0 0 1-1.42 1.42l-.78-.78a1 1 0 0 1 0-1.42Zm2.2-9.12a1 1 0 0 1 0 1.42l-.78.78a1 1 0 0 1-1.42-1.42l.78-.78a1 1 0 0 1 1.42 0ZM8.54 15.46a1 1 0 0 1 0 1.42l-.78.78a1 1 0 0 1-1.42-1.42l.78-.78a1 1 0 0 1 1.42 0ZM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/>
+            </svg>
+          </button>
+          <button class="primary-button" type="button" id="quickAddExpense">Add Expense</button>
+        </div>
+      </header>
+
+      <section class="view is-active" id="dashboard" data-view="dashboard">
+        <div class="summary-grid" id="summaryGrid" aria-label="Financial summary"></div>
+
+        <div class="two-column">
+          <section class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Cash flow</p>
+                <h3>Monthly movement</h3>
+              </div>
+            </div>
+            <canvas id="cashFlowChart" height="240" aria-label="Monthly cash flow chart"></canvas>
+          </section>
+
+          <section class="panel chart-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Expense mix</p>
+                <h3>Where money goes</h3>
+              </div>
+            </div>
+            <canvas id="categoryChart" height="240" aria-label="Expense category chart"></canvas>
+            <div class="legend" id="categoryLegend"></div>
+          </section>
+        </div>
+
+        <div class="two-column">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Autopilot</p>
+                <h3>Current saving status</h3>
+              </div>
+              <span class="status-dot" id="autopilotDot">Review</span>
+            </div>
+            <div id="autopilotPanel" class="stack"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Next moves</p>
+                <h3>Action queue</h3>
+              </div>
+            </div>
+            <div id="actionQueue" class="stack"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="income" data-view="income">
+        <div class="split-layout">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Wages and income</p>
+                <h3>Add money coming in</h3>
+              </div>
+            </div>
+            <form id="incomeForm" class="form-grid">
+              <input type="hidden" id="incomeId">
+              <label>
+                Income name
+                <input id="incomeName" type="text" placeholder="Salary, freelance, allowance" required>
+              </label>
+              <label>
+                Amount
+                <input id="incomeAmount" type="number" min="0" step="0.01" placeholder="0.00" required>
+              </label>
+              <label>
+                Frequency
+                <select id="incomeFrequency"></select>
+              </label>
+              <label>
+                Type
+                <select id="incomeType">
+                  <option value="Wage">Wage</option>
+                  <option value="Side income">Side income</option>
+                  <option value="Investment">Investment</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <div class="form-actions">
+                <button class="primary-button" type="submit" id="incomeSubmit">Save income</button>
+                <button class="ghost-button" type="button" id="incomeCancel">Clear</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Income ledger</p>
+                <h3>Saved income streams</h3>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Frequency</th>
+                    <th class="numeric">Monthly</th>
+                    <th class="row-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="incomeTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="expenses" data-view="expenses">
+        <div class="split-layout">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Expenses</p>
+                <h3>Add spending obligations</h3>
+              </div>
+            </div>
+            <form id="expenseForm" class="form-grid">
+              <input type="hidden" id="expenseId">
+              <label>
+                Expense name
+                <input id="expenseName" type="text" placeholder="Rent, groceries, gym" required>
+              </label>
+              <label>
+                Amount
+                <input id="expenseAmount" type="number" min="0" step="0.01" placeholder="0.00" required>
+              </label>
+              <label>
+                Frequency
+                <select id="expenseFrequency"></select>
+              </label>
+              <label>
+                Category
+                <select id="expenseCategory"></select>
+              </label>
+              <label>
+                Due day
+                <input id="expenseDueDay" type="number" min="1" max="31" step="1" placeholder="1">
+              </label>
+              <label>
+                Priority
+                <select id="expensePriority">
+                  <option value="essential">Essential</option>
+                  <option value="flexible">Flexible</option>
+                  <option value="optional">Optional</option>
+                </select>
+              </label>
+              <label class="wide-field">
+                Notes
+                <input id="expenseNotes" type="text" placeholder="Contract renewal, cheaper option, shared bill">
+              </label>
+              <div class="form-actions">
+                <button class="primary-button" type="submit" id="expenseSubmit">Save expense</button>
+                <button class="ghost-button" type="button" id="expenseCancel">Clear</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Expense ledger</p>
+                <h3>Organized monthly cost</h3>
+              </div>
+            </div>
+            <div class="filter-row">
+              <label>
+                Filter
+                <select id="expenseFilter"></select>
+              </label>
+              <label>
+                Sort
+                <select id="expenseSort">
+                  <option value="largest">Largest monthly cost</option>
+                  <option value="category">Category</option>
+                  <option value="due">Due day</option>
+                  <option value="priority">Priority</option>
+                </select>
+              </label>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Priority</th>
+                    <th class="numeric">Monthly</th>
+                    <th class="row-actions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expenseTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="goals" data-view="goals">
+        <div class="split-layout">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Savings goals</p>
+                <h3>Tell the app what to protect</h3>
+              </div>
+            </div>
+            <form id="goalForm" class="form-grid">
+              <input type="hidden" id="goalId">
+              <label>
+                Goal name
+                <input id="goalName" type="text" placeholder="Emergency fund, down payment" required>
+              </label>
+              <label>
+                Target amount
+                <input id="goalTarget" type="number" min="0" step="0.01" placeholder="0.00" required>
+              </label>
+              <label>
+                Already saved
+                <input id="goalCurrent" type="number" min="0" step="0.01" placeholder="0.00">
+              </label>
+              <label>
+                Deadline
+                <input id="goalDeadline" type="date" required>
+              </label>
+              <label>
+                Goal type
+                <select id="goalType">
+                  <option value="month">End of month</option>
+                  <option value="year">End of year</option>
+                  <option value="custom">Custom deadline</option>
+                </select>
+              </label>
+              <div class="form-actions">
+                <button class="primary-button" type="submit" id="goalSubmit">Save goal</button>
+                <button class="ghost-button" type="button" id="goalCancel">Clear</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Goal tracker</p>
+                <h3>Required monthly savings</h3>
+              </div>
+            </div>
+            <div id="goalList" class="goal-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="plan" data-view="plan">
+        <section class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Monthly plan</p>
+              <h3>Saving strategy generated from your data</h3>
+            </div>
+            <button class="ghost-button" type="button" id="printPlan">Print plan</button>
+          </div>
+          <div id="planSummary" class="plan-summary"></div>
+        </section>
+
+        <div class="two-column">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Category caps</p>
+                <h3>Recommended monthly limits</h3>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th class="numeric">Current</th>
+                    <th class="numeric">Recommended</th>
+                    <th class="numeric">Weekly cap</th>
+                  </tr>
+                </thead>
+                <tbody id="categoryCaps"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Cut list</p>
+                <h3>Highest impact reductions</h3>
+              </div>
+            </div>
+            <div id="cutList" class="stack"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="simulator" data-view="simulator">
+        <div class="two-column">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">What-if Lab</p>
+                <h3>Stress-test your choices</h3>
+              </div>
+            </div>
+            <div class="slider-stack">
+              <label>
+                Reduce food spending <span id="simFoodLabel">10%</span>
+                <input id="simFood" type="range" min="0" max="60" value="10">
+              </label>
+              <label>
+                Reduce subscriptions <span id="simSubscriptionsLabel">20%</span>
+                <input id="simSubscriptions" type="range" min="0" max="100" value="20">
+              </label>
+              <label>
+                Reduce shopping <span id="simShoppingLabel">15%</span>
+                <input id="simShopping" type="range" min="0" max="80" value="15">
+              </label>
+              <label>
+                Reduce entertainment <span id="simEntertainmentLabel">10%</span>
+                <input id="simEntertainment" type="range" min="0" max="80" value="10">
+              </label>
+              <label>
+                Add monthly side income <span id="simSideIncomeLabel">$150</span>
+                <input id="simSideIncome" type="range" min="0" max="2000" step="25" value="150">
+              </label>
+              <label>
+                Wage increase <span id="simRaiseLabel">0%</span>
+                <input id="simRaise" type="range" min="0" max="25" value="0">
+              </label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Scenario result</p>
+                <h3>Projected improvement</h3>
+              </div>
+            </div>
+            <div id="simulatorResult" class="scenario-result"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="reports" data-view="reports">
+        <div class="two-column">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Report</p>
+                <h3>Printable monthly brief</h3>
+              </div>
+              <button class="ghost-button" type="button" id="printReport">Print report</button>
+            </div>
+            <article id="reportDocument" class="report-document"></article>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Data tools</p>
+                <h3>Backup and restore</h3>
+              </div>
+            </div>
+            <div class="button-stack">
+              <button class="primary-button" type="button" id="exportData">Export finance data</button>
+              <button class="ghost-button" type="button" id="exportCsv">Export CSV tables</button>
+              <button class="ghost-button" type="button" id="importData">Import finance data</button>
+              <input id="importFile" type="file" accept="application/json" hidden>
+              <button class="danger-button" type="button" id="resetSample">Reload sample data</button>
+              <button class="danger-button" type="button" id="clearData">Clear all data</button>
+            </div>
+            <p class="helper-text" id="storageDetail">Launch with launch.bat to save automatically to finance-data.json.</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="settings" data-view="settings">
+        <section class="panel settings-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Profile</p>
+              <h3>Personalize planning assumptions</h3>
+            </div>
+          </div>
+          <form id="settingsForm" class="form-grid">
+            <label>
+              Display name
+              <input id="profileName" type="text" placeholder="Your name">
+            </label>
+            <label>
+              Currency
+              <select id="profileCurrency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+              </select>
+            </label>
+            <label>
+              Monthly starting savings
+              <input id="profileStartingSavings" type="number" min="0" step="0.01">
+            </label>
+            <label>
+              Month starts on day
+              <input id="profileMonthStart" type="number" min="1" max="28" step="1">
+            </label>
+            <label class="wide-field">
+              Planning style
+              <select id="profileStyle">
+                <option value="balanced">Balanced: steady cuts and steady saving</option>
+                <option value="aggressive">Aggressive: reach goals faster</option>
+                <option value="comfort">Comfort: protect lifestyle categories</option>
+              </select>
+            </label>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Save settings</button>
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
