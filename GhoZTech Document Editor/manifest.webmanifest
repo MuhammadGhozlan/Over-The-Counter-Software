@@ -1,0 +1,16 @@
+{
+  "name": "GhoZTech Document Editor",
+  "short_name": "GhoZTech Editor",
+  "description": "A local-first document editor with rich text formatting, templates, exports, and file-backed storage.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f2f5f6",
+  "theme_color": "#155e75",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

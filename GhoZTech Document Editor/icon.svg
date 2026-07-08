@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="GhoZTech Document Editor icon">
+  <rect width="128" height="128" rx="18" fill="#102026"/>
+  <path d="M36 18h40l20 20v72H36z" fill="#ffffff"/>
+  <path d="M76 18v22h20" fill="#dbeafe"/>
+  <path d="M48 56h34M48 70h34M48 84h24" stroke="#155e75" stroke-width="7" stroke-linecap="round"/>
+  <rect x="24" y="82" width="32" height="28" rx="7" fill="#155e75"/>
+  <text x="40" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#fff">GZ</text>
+</svg>

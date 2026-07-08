@@ -1,0 +1,16 @@
+{
+  "theme": "light",
+  "currentDocumentId": "doc-welcome",
+  "documents": [
+    {
+      "id": "doc-welcome",
+      "title": "Welcome to GhoZTech Document Editor",
+      "html": "<h1>Welcome to GhoZTech Document Editor</h1><p>This local editor gives you a Microsoft Word-style writing workspace with document storage, formatting tools, templates, printing, and export options.</p><h2>Start here</h2><ul><li>Use the toolbar to format text.</li><li>Create documents from the sidebar.</li><li>Open the app with launch.bat to save to documents-data.json.</li></ul><p>Your documents stay on this computer unless you export or share them.</p>",
+      "createdAt": "2026-07-08T00:00:00.000Z",
+      "updatedAt": "2026-07-08T00:00:00.000Z",
+      "pageSize": "letter",
+      "margin": "normal",
+      "zoom": "1"
+    }
+  ]
+}

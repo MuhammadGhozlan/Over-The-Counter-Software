@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#155e75">
+  <title>GhoZTech Document Editor</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="document-sidebar" aria-label="Document library">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">GZ</div>
+        <div>
+          <h1>GhoZTech Document Editor</h1>
+          <p>Local document workspace</p>
+        </div>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="primary-button" type="button" id="newDocument">New Document</button>
+        <button class="ghost-button" type="button" id="duplicateDocument">Duplicate</button>
+      </div>
+
+      <label class="search-label">
+        Search documents
+        <input id="documentSearch" type="search" placeholder="Search title or text">
+      </label>
+
+      <div class="template-group" aria-label="Templates">
+        <button type="button" data-template="blank">Blank</button>
+        <button type="button" data-template="letter">Letter</button>
+        <button type="button" data-template="meeting">Meeting Notes</button>
+        <button type="button" data-template="proposal">Proposal</button>
+      </div>
+
+      <div class="document-list" id="documentList"></div>
+
+      <div class="storage-card">
+        <strong id="saveStatus">Starting editor</strong>
+        <span id="storageDetail">Launch with launch.bat to save documents to documents-data.json.</span>
+      </div>
+    </aside>
+
+    <main class="editor-workspace">
+      <header class="topbar">
+        <div class="title-area">
+          <input id="documentTitle" type="text" aria-label="Document title" value="Untitled Document">
+          <div class="meta-row">
+            <span id="documentMeta">0 words</span>
+            <span id="selectionMeta">Ready</span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-button" type="button" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v1.1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 15.9a1 1 0 0 1 1 1V21a1 1 0 1 1-2 0v-1.1a1 1 0 0 1 1-1ZM4 11h1.1a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2Zm14.9 0H20a1 1 0 1 1 0 2h-1.1a1 1 0 1 1 0-2ZM6.34 5.64a1 1 0 0 1 1.42 0l.78.78a1 1 0 0 1-1.42 1.42l-.78-.78a1 1 0 0 1 0-1.42Zm9.12 9.12a1 1 0 0 1 1.42 0l.78.78a1 1 0 0 1-1.42 1.42l-.78-.78a1 1 0 0 1 0-1.42Zm2.2-9.12a1 1 0 0 1 0 1.42l-.78.78a1 1 0 0 1-1.42-1.42l.78-.78a1 1 0 0 1 1.42 0ZM8.54 15.46a1 1 0 0 1 0 1.42l-.78.78a1 1 0 0 1-1.42-1.42l.78-.78a1 1 0 0 1 1.42 0ZM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
+          </button>
+          <button class="ghost-button" type="button" id="printDocument">Print</button>
+          <button class="primary-button" type="button" id="saveNow">Save</button>
+        </div>
+      </header>
+
+      <section class="toolbar" aria-label="Editing toolbar">
+        <div class="tool-group">
+          <button class="tool-button" type="button" data-command="undo" title="Undo" aria-label="Undo">Undo</button>
+          <button class="tool-button" type="button" data-command="redo" title="Redo" aria-label="Redo">Redo</button>
+        </div>
+
+        <div class="tool-group">
+          <select id="blockFormat" aria-label="Text style">
+            <option value="P">Normal</option>
+            <option value="H1">Heading 1</option>
+            <option value="H2">Heading 2</option>
+            <option value="H3">Heading 3</option>
+            <option value="BLOCKQUOTE">Quote</option>
+          </select>
+          <select id="fontName" aria-label="Font family">
+            <option value="Arial">Arial</option>
+            <option value="Calibri">Calibri</option>
+            <option value="Cambria">Cambria</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+          </select>
+          <select id="fontSize" aria-label="Font size">
+            <option value="2">10 pt</option>
+            <option value="3" selected>12 pt</option>
+            <option value="4">14 pt</option>
+            <option value="5">18 pt</option>
+            <option value="6">24 pt</option>
+            <option value="7">36 pt</option>
+          </select>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-button compact" type="button" data-command="bold" title="Bold" aria-label="Bold"><strong>B</strong></button>
+          <button class="tool-button compact" type="button" data-command="italic" title="Italic" aria-label="Italic"><em>I</em></button>
+          <button class="tool-button compact" type="button" data-command="underline" title="Underline" aria-label="Underline"><u>U</u></button>
+          <button class="tool-button compact" type="button" data-command="strikeThrough" title="Strikethrough" aria-label="Strikethrough">S</button>
+          <button class="tool-button compact" type="button" data-command="superscript" title="Superscript" aria-label="Superscript">x2</button>
+          <button class="tool-button compact" type="button" data-command="subscript" title="Subscript" aria-label="Subscript">x2</button>
+        </div>
+
+        <div class="tool-group">
+          <label class="color-tool" title="Text color">
+            Text
+            <input id="foreColor" type="color" value="#111827">
+          </label>
+          <label class="color-tool" title="Highlight color">
+            Fill
+            <input id="hiliteColor" type="color" value="#fff3a3">
+          </label>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-button compact" type="button" data-command="justifyLeft" title="Align left" aria-label="Align left">L</button>
+          <button class="tool-button compact" type="button" data-command="justifyCenter" title="Align center" aria-label="Align center">C</button>
+          <button class="tool-button compact" type="button" data-command="justifyRight" title="Align right" aria-label="Align right">R</button>
+          <button class="tool-button compact" type="button" data-command="justifyFull" title="Justify" aria-label="Justify">J</button>
+          <button class="tool-button compact" type="button" data-command="insertUnorderedList" title="Bulleted list" aria-label="Bulleted list">Bul</button>
+          <button class="tool-button compact" type="button" data-command="insertOrderedList" title="Numbered list" aria-label="Numbered list">Num</button>
+          <button class="tool-button compact" type="button" data-command="outdent" title="Decrease indent" aria-label="Decrease indent">Out</button>
+          <button class="tool-button compact" type="button" data-command="indent" title="Increase indent" aria-label="Increase indent">In</button>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-button" type="button" id="insertTable">Table</button>
+          <button class="tool-button" type="button" id="insertLink">Link</button>
+          <button class="tool-button" type="button" id="insertImage">Image</button>
+          <input id="imageFile" type="file" accept="image/*" hidden>
+          <button class="tool-button" type="button" id="findReplaceToggle">Find</button>
+        </div>
+
+        <div class="tool-group">
+          <select id="pageSize" aria-label="Page size">
+            <option value="letter">Letter</option>
+            <option value="a4">A4</option>
+            <option value="legal">Legal</option>
+          </select>
+          <select id="pageMargin" aria-label="Page margins">
+            <option value="normal">Normal margins</option>
+            <option value="narrow">Narrow margins</option>
+            <option value="wide">Wide margins</option>
+          </select>
+          <select id="zoomLevel" aria-label="Zoom">
+            <option value="0.75">75%</option>
+            <option value="0.9">90%</option>
+            <option value="1" selected>100%</option>
+            <option value="1.15">115%</option>
+            <option value="1.3">130%</option>
+          </select>
+        </div>
+
+        <div class="tool-group">
+          <button class="tool-button" type="button" id="exportHtml">HTML</button>
+          <button class="tool-button" type="button" id="exportDoc">DOC</button>
+          <button class="tool-button" type="button" id="exportTxt">TXT</button>
+          <button class="danger-button" type="button" id="deleteDocument">Delete</button>
+        </div>
+      </section>
+
+      <section class="find-panel" id="findPanel" aria-label="Find and replace">
+        <label>
+          Find
+          <input id="findText" type="search" placeholder="Text to find">
+        </label>
+        <label>
+          Replace
+          <input id="replaceText" type="text" placeholder="Replacement text">
+        </label>
+        <button class="ghost-button" type="button" id="findNext">Find next</button>
+        <button class="ghost-button" type="button" id="replaceNext">Replace next</button>
+        <button class="ghost-button" type="button" id="replaceAll">Replace all</button>
+      </section>
+
+      <section class="editor-stage" aria-label="Document editor">
+        <div class="page-wrap" id="pageWrap">
+          <article id="editor" class="editor-page" contenteditable="true" spellcheck="true" aria-label="Editable document"></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
